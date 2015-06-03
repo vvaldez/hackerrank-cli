@@ -15,7 +15,9 @@ test_id = 1234
 ```
 
 ## Usage:
-incents-MacBook-Pro:hackerrank-cli vvaldez$ ./hackerrank-cli.py -h
+
+```
+hackerrank-cli vvaldez$ ./hackerrank-cli.py -h
 Usage:
 hackerrank-cli.py [options]
 
@@ -37,17 +39,26 @@ Options:
                         API Key
   -v, --verbose         Enable verbose output
   -d, --debug           Enable lots of debug output (more than verbose)
+```
 
 ## Examples
 * Get all tests:
+```
 ./hackerrank-cli.py --get --tests
+```
 
 * Get all questions for a test
+```
 ./hackerrank-cli.py --get --test 1234
+```
 
-NOTE: Feature not complete!
+
 * Post all questions for a test 
+NOTE: Feature not complete!
+
+```
 ./hackerrank-cli.py --put --test 1234
+```
 
 ## To Do:
 * Understand why POST isn't working (it even fails with a curl command)
