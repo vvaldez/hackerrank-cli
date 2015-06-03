@@ -8,9 +8,11 @@ Currently POST does not work to the API and is being investigated.
 Some settings can be saved in .hackerrank-cli such as api_key and test_id in the format:
 
 .hackerrank-cli
+```
 [Defaults]
 api_key = 1234567890
 test_id = 1234
+```
 
 ## Usage:
 incents-MacBook-Pro:hackerrank-cli vvaldez$ ./hackerrank-cli.py -h
