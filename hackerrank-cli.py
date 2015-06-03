@@ -160,7 +160,7 @@ def main(args):
                     if str(test['id']) == str(options.test_id):
                             test_name = test['name']
             # To retrieve all scripts for a question
-            if options.questions or options.test_id:
+            if options.questions:
                 print "Questions: "
                 print "--------------+------------------------------------"
                 print "| Question ID | Name "
@@ -180,7 +180,8 @@ def main(args):
                 if options.verbose: 
                         print "INFO: Question %s requested." % question_id
                 questions = get_questions(options.test_id)
-                write_q_to_disk(test_name, options.test_id, q_name, question_id, script, question['sudorank_scripts'][script])
+                for script in scripts:
+                    write_q_to_disk(test_name, options.test_id, q_name, question_id, script, question['sudorank_scripts'][script])
                 write_q_to_disk(test_name, options.test_id, q_name, question_id, "test_id", str(options.test_id))
                 write_q_to_disk(test_name, options.test_id, q_name, question_id, "question_id", question_id)
         # To retrieve a single question
