@@ -1,11 +1,8 @@
 # hackerrank-cli
-CLI for managing tests, questions and scripts for HackerRank API. This tool will query the HackerRank test or question URL as needed using a specified API key. With --get action, it will pull all question and scripts and write them to disk. With --put action it will POST the scripts from disk to the API.
-
-## Known Issues
-Currently POST does not work to the API and is being investigated.
+CLI for managing tests, questions and scripts for HackerRank for Work API. This tool will query the HackerRank test or question URL as needed using a specified API key. With --get action, it will GET all question and scripts and write them to disk. With --put action it will POST the scripts from disk to the API.
 
 ## Config file
-Some settings can be saved in .hackerrank-cli such as api_key and test_id in the format:
+Some settings can be saved in `.hackerrank-cli` such as `api_key` and `test_id` in the format:
 
 .hackerrank-cli
 ```
@@ -54,13 +51,11 @@ Options:
 
 
 * Post all questions for a test 
-NOTE: Feature not complete!
-
 ```
 ./hackerrank-cli.py --put --test 1234
 ```
 
 ## To Do:
-* Understand why POST isn't working (it even fails with a curl command)
 * Include question and test text to a file for editing and posting
+* Use tabulate or something else to make output pretty
 * Needs a lot of cleanup as this was very hackish

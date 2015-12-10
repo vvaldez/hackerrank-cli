@@ -2,20 +2,23 @@
 
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
 
+# Script to GET or PUT data to the HackerRank for Work API
+# curl command to post data:
+# curl -X PUT -H 'Content-Type: application/json' -d '{"sudorank_scripts": {"setup":"#test from cli\nexit 0","solve":"exit 0","check":"exit 0","cleanup":"exit 5"}}'  https://www.hackerrank.com/x/api/v1/questions/204486?access_token=<token>
+
 # Import modules
 try:
-    import xmlrpclib, os, sys, signal, time, re, getpass, urllib, urllib2, requests, json, logging, csv, json, tempfile, io, ConfigParser
+    import os, sys, requests, json, json, io, ConfigParser
     from optparse import OptionParser
-    from urllib2 import Request, urlopen, URLError
 except:
     print "Could not import modules"
     raise
 
 __author__ = "Vinny Valdez"
 __copyright__ = "Copyright 2015"
-#__credits__ = [""]
+__credits__ = ["Google Searching"]
 __license__ = "GPL"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __maintainer__ = "Vinny Valdez"
 __email__ = "vvaldez@redhat.com"
 __status__ = "Prototype"
@@ -83,11 +86,24 @@ def get_data(url, parameters):
 def put_data(url, params, payload):
     if options.verbose:
         print "INFO: url: %s \nheaders: %s \nparams: %s \ndata: %s" % (url, url_headers, params, json.dumps(payload))
-    r = requests.post(url, headers=url_headers, params=params, data=json.dumps(payload))
+    if options.debug:
+        print type(payload)
+    r = requests.put(url, headers=url_headers, params=params, data=json.dumps(payload))
     return r
 
 def get_tests(url, params):
     return get_data(url, params)
+
+def list_tests(tests):
+    # Todo: change to tabulate
+    if options.verbose: 
+            print "INFO: All tests requested."
+    print "--------+------------------------------------"
+    print "| Test ID | Name "
+    print "--------+------------------------------------"
+    for test in tests:
+            print "%s   | %s" % (test['id'], test['name'])
+    print "--------+------------------------------------"
 
 def get_questions(test_id):
     tests = get_tests(tests_url, tests_url_params)['data']
@@ -138,20 +154,11 @@ def main(args):
             print "INFO: Get requested"
         # Retrieve all tests
         if options.tests:
-                if options.verbose: 
-                        print "INFO: All tests requested."
-                tests = get_tests(tests_url, tests_url_params)['data']
-                print "--------+------------------------------------"
-                print "| Test ID | Name "
-                print "--------+------------------------------------"
-                for test in tests:
-                        print "%s   | %s" % (test['id'], test['name'])
-                print "--------+------------------------------------"
+            tests = get_tests(tests_url, tests_url_params)['data']
+            list_tests(tests)
         # To retrieve all questions for a specific test
         elif options.test_id:
             if options.verbose: 
-                print "test %s" % test_id
-                print "options %s " % options.test_id
                 print "INFO: Test %s requested." % options.test_id
             questions = get_questions(options.test_id)
             # Get test data to retrieve test name
@@ -206,12 +213,16 @@ def main(args):
             print "Reading scripts from disk for: %s" % question_id
             question = get_question(question_id)['model']
             q_name = question['name']
+            question_scripts = {}
+            question_scripts['sudorank_scripts'] = {}
             for script in scripts:
-                    question['sudorank_scripts'][script] = read_q_from_disk(test_name, q_name, script)
-            request = put_question(question_url + question_id, question_url_params, question)
-            print "Put question %s %s %s:" % (q_name, request.status_code, request.headers)
+                    question_scripts['sudorank_scripts'][script] = read_q_from_disk(test_name, q_name, script)
+            if options.debug: print "DEBUG: Calling put_question with parameters %s, %s, %s" % (question_url + question_id, question_url_params, question_scripts)
+            request = put_question(question_url + question_id, question_url_params, question_scripts)
+            if options.debug: print "DEBUG: Put question output: %s %s %s %s:" % (q_name, request.status_code, request.headers, request.text)
         if options.verbose: 
-            print json.dumps(question, sort_keys=True, indent=4, separators=(',', ': '))
+            print "INFO: json dumps"
+            print json.dumps(question_scripts, sort_keys=True, indent=4, separators=(',', ': '))
 		
 if __name__ == '__main__':
 	main(sys.argv)
