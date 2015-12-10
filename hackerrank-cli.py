@@ -47,8 +47,8 @@ usage = "\n%prog [options]\n\nThis script will get and put tests questions and s
 description = "Use -h or --help for all available options."
 parser = OptionParser(usage=usage, description=description)
 #parser.add_option("-i", "--interactive", action="store_true", dest="interactive", help="Interactive Mode", default=False)
-parser.add_option("-g", "--get", action="store_true", dest="get", help="Get data", default=False)
-parser.add_option("-p", "--put", action="store_true", dest="put", help="Put data **FEATURE NOT COMPLETE**", default=False)
+parser.add_option("-g", "--get", action="store_true", dest="get", help="GET data", default=False)
+parser.add_option("-p", "--put", action="store_true", dest="put", help="PUT data", default=False)
 parser.add_option("-T", "--tests", action="store_true", dest="tests", help="All Tests", default=False)
 parser.add_option("-Q", "--questions", action="store_true", dest="questions", help="All Questions", default=False)
 parser.add_option("-t", "--test", dest="test_id", help="Test ID", default=test_id)
