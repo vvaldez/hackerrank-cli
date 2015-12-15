@@ -56,6 +56,8 @@ Options:
 ```
 
 ## To Do:
-* Include question and test text to a file for editing and posting
 * Use tabulate or something else to make output pretty
 * Needs a lot of cleanup as this was very hackish
+* Add directory option to save Tests
+* Clean up options variables
+* Make test_id optional in config file

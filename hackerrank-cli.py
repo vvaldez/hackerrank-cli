@@ -178,10 +178,12 @@ def main(args):
                     question = get_question(question_id)['model']
                     q_name = question['name']
                     print "%s | %s " % (question_id, q_name)
+                    if options.debug: print question
                     for script in scripts:
                             write_q_to_disk(test_name, options.test_id, q_name, question_id, script, question['sudorank_scripts'][script])
                     write_q_to_disk(test_name, options.test_id, q_name, question_id, "test_id", str(options.test_id))
                     write_q_to_disk(test_name, options.test_id, q_name, question_id, "question_id", question_id)
+                    write_q_to_disk(test_name, options.test_id, q_name, question_id, "question_text", question['question'].encode('ascii', 'ignore'))
                 print "--------------+------------------------------------"
             elif options.question_id:
                 if options.verbose: 
@@ -191,6 +193,7 @@ def main(args):
                     write_q_to_disk(test_name, options.test_id, q_name, question_id, script, question['sudorank_scripts'][script])
                 write_q_to_disk(test_name, options.test_id, q_name, question_id, "test_id", str(options.test_id))
                 write_q_to_disk(test_name, options.test_id, q_name, question_id, "question_id", question_id)
+                write_q_to_disk(test_name, options.test_id, q_name, question_id, "question_text", question['question'].encode('ascii', 'ignore'))
         # To retrieve a single question
         elif options.question_id and options.test_id:
                 if options.verbose: 
@@ -213,6 +216,10 @@ def main(args):
             print "Reading scripts from disk for: %s" % question_id
             question = get_question(question_id)['model']
             q_name = question['name']
+            question_text = ''
+            question_text = read_q_from_disk(test_name, q_name, 'question_text')
+            question['question'] = question_text
+            if options.debug: print "DEBUG: Text is: %s" % quesiton_text
             question_scripts = {}
             question_scripts['sudorank_scripts'] = {}
             for script in scripts:
