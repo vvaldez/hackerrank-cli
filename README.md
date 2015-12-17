@@ -61,3 +61,4 @@ Options:
 * Add directory option to save Tests
 * Clean up options variables
 * Make test_id optional in config file
+* Process Test names with a "/" properly

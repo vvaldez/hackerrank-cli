@@ -184,6 +184,7 @@ def main(args):
                     write_q_to_disk(test_name, options.test_id, q_name, question_id, "test_id", str(options.test_id))
                     write_q_to_disk(test_name, options.test_id, q_name, question_id, "question_id", question_id)
                     write_q_to_disk(test_name, options.test_id, q_name, question_id, "question_text", question['question'].encode('ascii', 'ignore'))
+                    write_q_to_disk(test_name, options.test_id, q_name, question_id, "score", question['score'])
                 print "--------------+------------------------------------"
             elif options.question_id:
                 if options.verbose: 
@@ -194,6 +195,7 @@ def main(args):
                 write_q_to_disk(test_name, options.test_id, q_name, question_id, "test_id", str(options.test_id))
                 write_q_to_disk(test_name, options.test_id, q_name, question_id, "question_id", question_id)
                 write_q_to_disk(test_name, options.test_id, q_name, question_id, "question_text", question['question'].encode('ascii', 'ignore'))
+                write_q_to_disk(test_name, options.test_id, q_name, question_id, "score", question['score'])
         # To retrieve a single question
         elif options.question_id and options.test_id:
                 if options.verbose: 
@@ -219,6 +221,8 @@ def main(args):
             question_text = ''
             question_text = read_q_from_disk(test_name, q_name, 'question_text')
             question['question'] = question_text
+            score = ''
+            score = read_q_from_disk(test_name, q_name, 'score')
             if options.debug: print "DEBUG: Text is: %s" % quesiton_text
             question_scripts = {}
             question_scripts['sudorank_scripts'] = {}
